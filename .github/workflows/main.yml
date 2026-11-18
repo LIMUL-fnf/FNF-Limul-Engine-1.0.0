@@ -54,18 +54,24 @@ jobs:
       - name: Patch rapidjson (discord_rpc)
         shell: bash
         run: |
+          cd ~/haxelib/discord_rpc/git
+          git submodule update --init --recursive
           python3 - <<'PY'
           import pathlib, re
-          p = pathlib.Path.home() / "haxelib/discord_rpc/git/lib/discord-rpc/include/rapidjson/document.h"
-          if not p.exists():
-              print("rapidjson document.h not found, skipping patch")
-          else:
+          base = pathlib.Path.home() / "haxelib/discord_rpc/git"
+          pat = re.compile(r"GenericStringRef&\s+operator=\(const GenericStringRef&\s+rhs\)\s*\{[^}]*\}")
+          for rel in ("lib/rapidjson/include/rapidjson/document.h", "lib/discord-rpc/include/rapidjson/document.h"):
+              p = base / rel
+              if not p.exists():
+                  print("skip (missing):", rel)
+                  continue
               s = p.read_text()
-              s2, n = re.subn(r"GenericStringRef&\s+operator=\(const GenericStringRef&\s+rhs\)\s*\{[^}]*\}", "GenericStringRef& operator=(const GenericStringRef& rhs) = delete;", s)
+              s2, n = pat.subn("GenericStringRef& operator=(const GenericStringRef& rhs) = delete;", s)
               if n:
                   p.write_text(s2)
-              print("rapidjson operator= patched:", n)
+              print("patched:", n, rel)
           PY
+          grep -R "length = rhs.length" ~/haxelib/discord_rpc/git/lib/*/include/rapidjson/document.h && exit 1 || true
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -204,18 +210,24 @@ jobs:
       - name: Patch rapidjson (discord_rpc)
         shell: bash
         run: |
+          cd ~/haxelib/discord_rpc/git
+          git submodule update --init --recursive
           python3 - <<'PY'
           import pathlib, re
-          p = pathlib.Path.home() / "haxelib/discord_rpc/git/lib/discord-rpc/include/rapidjson/document.h"
-          if not p.exists():
-              print("rapidjson document.h not found, skipping patch")
-          else:
+          base = pathlib.Path.home() / "haxelib/discord_rpc/git"
+          pat = re.compile(r"GenericStringRef&\s+operator=\(const GenericStringRef&\s+rhs\)\s*\{[^}]*\}")
+          for rel in ("lib/rapidjson/include/rapidjson/document.h", "lib/discord-rpc/include/rapidjson/document.h"):
+              p = base / rel
+              if not p.exists():
+                  print("skip (missing):", rel)
+                  continue
               s = p.read_text()
-              s2, n = re.subn(r"GenericStringRef&\s+operator=\(const GenericStringRef&\s+rhs\)\s*\{[^}]*\}", "GenericStringRef& operator=(const GenericStringRef& rhs) = delete;", s)
+              s2, n = pat.subn("GenericStringRef& operator=(const GenericStringRef& rhs) = delete;", s)
               if n:
                   p.write_text(s2)
-              print("rapidjson operator= patched:", n)
+              print("patched:", n, rel)
           PY
+          grep -R "length = rhs.length" ~/haxelib/discord_rpc/git/lib/*/include/rapidjson/document.h && exit 1 || true
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
