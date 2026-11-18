@@ -1482,7 +1482,7 @@ class FreeplayState extends MusicBeatState
 			vsliceDj.anim.addBySymbolIndices('idle', 'Boyfriend DJ', [for (i in 0...14) i], 24, true);
 			vsliceDj.anim.addBySymbolIndices('confirm', 'Boyfriend DJ confirm', [for (i in 0...30) i], 24, false);
 		}
-		vsliceDj.anim.onComplete = vsliceDjFinished;
+		vsliceDj.anim.onComplete.add(vsliceDjFinished);
 		vsliceDj.visible = vsliceDj.active = true;
 		vsliceDj.anim.play('intro');
 		vsliceDjState = 'intro';

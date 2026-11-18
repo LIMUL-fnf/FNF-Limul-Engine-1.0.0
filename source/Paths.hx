@@ -3,6 +3,7 @@ package;
 import animateatlas.AtlasFrameMaker;
 #if flxanimate
 import flxanimate.FlxAnimate;
+import flxanimate.frames.FlxAnimateFrames;
 #end
 import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxFrame.FlxFrameAngle;
@@ -533,7 +534,7 @@ class Paths
 	/**
 	 * Lodaded straight from bin/assets instead of the embedded manifest: the module was exported
 	 * with Animate 2020 and lives in three files (`Animation.json`, `spritemap*.json`, `spritemap*.png`),
-	 * which flxanimate's `loadAtlasEx` needs as text + a FlxGraphic, not as an asset-library entry.
+	 * loader needs as text + a FlxGraphic, not as an asset-library entry.
 	 */
 	static function animateAtlasText(key:String):String
 	{
@@ -565,7 +566,24 @@ class Paths
 		if (atlasImage == null)
 			atlasImage = image(folder);
 
-		spr.loadAtlasEx(atlasImage, spriteJson, animateAtlasText('images/$folder/Animation.json'));
+		var animJson:String = animateAtlasText('images/$folder/Animation.json');
+		if (spriteJson == null || animJson == null || atlasImage == null)
+			return;
+
+		// BOM left by Animate exports breaks Json.parse
+		var bom = String.fromCharCode(0xFEFF);
+		var spriteMap:Dynamic = Json.parse(spriteJson.split(bom).join(""));
+		var frames = new FlxAtlasFrames(atlasImage);
+		for (sprite in (spriteMap.ATLAS.SPRITES:Array<Dynamic>))
+		{
+			var limb:Dynamic = sprite.SPRITE;
+			var rect = FlxRect.get(limb.x, limb.y, limb.w, limb.h);
+			if (limb.rotated)
+				rect.setSize(rect.height, rect.width);
+			FlxAnimateFrames.sliceFrame(limb.name, limb.rotated, rect, null, null, frames);
+		}
+
+		spr.loadSeparateAtlas(animJson.split(bom).join(""), frames);
 	}
 	#end
 

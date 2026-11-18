@@ -29,7 +29,7 @@ class SpraycanAtlasSprite extends FlxSpriteGroup
 		canAtlas.anim.addBySymbolIndices('Can Start', 'Can with Labels', [for (i in 0...19) i], 24, false);
 		canAtlas.anim.addBySymbolIndices('Hit Pico', 'Can with Labels', [19, 20, 21, 22, 23, 24, 25], 24, false);
 		canAtlas.anim.addBySymbolIndices('Can Shot', 'Can with Labels', [26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42], 24, false);
-		canAtlas.anim.onComplete = finishCanAnimation;
+		canAtlas.anim.onComplete.add(finishCanAnimation);
 		canAtlas.visible = canAtlas.active = false;
 		canAtlas.antialiasing = ClientPrefs.globalAntialiasing;
 		add(canAtlas);
