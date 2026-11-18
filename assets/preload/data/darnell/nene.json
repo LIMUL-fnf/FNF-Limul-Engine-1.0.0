@@ -1,0 +1,375 @@
+{
+	"animations": [
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": true,
+			"anim": "idle",
+			"fps": 24,
+			"indices": [],
+			"name": "Idle"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": false,
+			"anim": "danceLeft",
+			"fps": 24,
+			"indices": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14
+			],
+			"name": "Idle"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": false,
+			"anim": "danceRight",
+			"fps": 24,
+			"indices": [
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29
+			],
+			"name": "Idle"
+		},
+		{
+			"offsets": [97, -51],
+			"loop": false,
+			"anim": "danceLeft-alt",
+			"fps": 24,
+			"indices": [
+				0,
+				1,
+				2,
+				3,
+				4
+			],
+			"name": "KnifeIdle"
+		},
+		{
+			"offsets": [97, -51],
+			"loop": false,
+			"anim": "danceRight-alt",
+			"fps": 24,
+			"indices": [
+				5,
+				6,
+				7,
+				8,
+				9
+			],
+			"name": "KnifeIdle"
+		},
+		{
+			"offsets": [97, -51],
+			"loop": true,
+			"anim": "idle-alt",
+			"fps": 24,
+			"indices": [],
+			"name": "KnifeIdle"
+		},
+		{
+			"offsets": [97, -51],
+			"loop": true,
+			"anim": "idleKnife",
+			"fps": 24,
+			"indices": [],
+			"name": "KnifeIdle"
+		},
+		{
+			"offsets": [0, -51],
+			"loop": false,
+			"anim": "raiseKnife",
+			"fps": 24,
+			"indices": [],
+			"name": "KnifeRaise"
+		},
+		{
+			"offsets": [-136, -51],
+			"loop": false,
+			"anim": "lowerKnife",
+			"fps": 24,
+			"indices": [],
+			"name": "KnifeLower"
+		},
+		{
+			"offsets": [
+				-119,
+				55
+			],
+			"loop": false,
+			"anim": "combo50",
+			"fps": 24,
+			"indices": [],
+			"name": "ComboCheer"
+		},
+		{
+			"offsets": [
+				-119,
+				55
+			],
+			"loop": false,
+			"anim": "cheer",
+			"fps": 24,
+			"indices": [],
+			"name": "ComboCheer"
+		},
+		{
+			"offsets": [
+				-41,
+				-15
+			],
+			"loop": false,
+			"anim": "combo100",
+			"fps": 24,
+			"indices": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				4,
+				5,
+				6,
+				4,
+				5,
+				6,
+				4,
+				5,
+				6
+			],
+			"name": "ComboFawn"
+		},
+		{
+			"offsets": [
+				17,
+				-5
+			],
+			"loop": false,
+			"anim": "laughCutscene",
+			"fps": 24,
+			"indices": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11
+			],
+			"name": "Laugh"
+		},
+		{
+			"offsets": [
+				17,
+				-5
+			],
+			"loop": false,
+			"anim": "drop70",
+			"fps": 24,
+			"indices": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11
+			],
+			"name": "Laugh"
+		},
+		{
+			"offsets": [
+				17,
+				-5
+			],
+			"loop": false,
+			"anim": "sad2",
+			"fps": 24,
+			"indices": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11,
+				7,
+				8,
+				9,
+				10,
+				11
+			],
+			"name": "Laugh"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": true,
+			"anim": "hairBlow",
+			"fps": 24,
+			"indices": [
+				0,
+				1,
+				2,
+				3
+			],
+			"name": "HairBlow0"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"loop": false,
+			"anim": "hairFall",
+			"fps": 24,
+			"indices": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16
+			],
+			"name": "HairBlow0"
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/Nene",
+	"position": [
+		110,
+		10
+	],
+	"healthicon": "gf",
+	"flip_x": false,
+	"healthbar_colors": [
+		165,
+		0,
+		77
+	],
+	"camera_position": [
+		-170,
+		0
+	],
+	"sing_duration": 4,
+	"scale": 0.9
+}

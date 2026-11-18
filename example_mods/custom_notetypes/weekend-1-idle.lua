@@ -1,0 +1,21 @@
+-- weekend-1-idle.lua -- Both fighters breathe.
+--
+-- Chart string: 'weekend-1-idle'   (sectionNotes[i][3])
+--
+-- WHY THIS FILE IS EMPTY ON PURPOSE. Psych 0.6.3 has no note-type registry: the type IS the
+-- file name. ChartingState.hx (~line 1064) builds the Chart Editor dropdown by listing
+-- custom_notetypes/*.lua, and PlayState.hx (~line 1211) loads the same path back at
+-- gameplay, so deleting this file would drop the type from the editor and leave every chart
+-- that already uses it with a plain sing animation.
+--
+-- It animates nothing because it cannot. 'idle' is one step of the Blazin' fight, and a
+-- step is not one animation: Pico and Darnell move together, the camera shakes, and the
+-- attacker swaps draw order with the defender. callOnLuas (PlayState.hx ~5399) hands EVERY
+-- loaded script EVERY callback, so whichever file tried to own this would either duplicate
+-- the move across the other 25 scripts or have to guess what the other fighter is doing.
+-- noteMissPress is worse still: it arrives with a direction and no note type at all.
+--
+-- The choreography therefore lives in stages/phillyBlazin.lua, ported from FNF-JS-Engine
+-- 1.51.1 source/stages/objects/PicoBlazinHandler.hx and DarnellBlazinHandler.hx (dispatch:
+-- PhillyBlazin.hx:229-258). Adding a callback here would run AFTER that script for the same
+-- note and overwrite the move it picked -- which is exactly the bug this file used to have.

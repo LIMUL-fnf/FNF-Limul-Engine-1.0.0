@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Lime: Windows (Optimized)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}/tools/run-windows-release.ps1\"",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
