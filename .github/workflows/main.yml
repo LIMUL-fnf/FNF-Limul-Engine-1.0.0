@@ -52,17 +52,16 @@ jobs:
 
       - name: Compile
         shell: bash
-        run: haxelib run lime build Project.xml linux 2>&1 | tee build.log
+        run: haxelib run lime build project.xml linux 2>&1 | tee build.log
 
       - name: Show logs on failure
         if: failure()
         shell: bash
         run: |
-          for f in install-haxelib.log build.log; do
-            [ -f "$f" ] || continue
-            { echo "### $f (tail)"; echo '```'; tail -n 80 "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-            tail -n 9 "$f" | sed 's/^/::error::/'
-          done
+          f=build.log; [ -f "$f" ] || f=install-haxelib.log
+          { echo "### $f (tail)"; echo '```'; tail -n 120 "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          grep -E "Error|error:|Could not|Exception|Invalid|not found" "$f" | head -n 9 | sed 's/^/::error::/' \
+            || tail -n 9 "$f" | sed 's/^/::error::/'
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
@@ -113,22 +112,22 @@ jobs:
       - name: Compile
         shell: cmd
         run: |
-          haxelib run lime build windows > build.log 2>&1
+          haxelib run lime build project.xml windows > build.log 2>&1
           if errorlevel 1 exit /b 1
 
       - name: Show logs on failure
         if: failure()
         shell: pwsh
         run: |
-          foreach ($f in @('install-haxelib.log', 'build.log')) {
-            if (Test-Path $f) {
-              Add-Content $env:GITHUB_STEP_SUMMARY "### $f (tail)"
-              Add-Content $env:GITHUB_STEP_SUMMARY '```'
-              Get-Content $f -Tail 80 | Add-Content $env:GITHUB_STEP_SUMMARY
-              Add-Content $env:GITHUB_STEP_SUMMARY '```'
-              Get-Content $f -Tail 9 | ForEach-Object { "::error::$_" }
-            }
-          }
+          $f = if (Test-Path 'build.log') { 'build.log' } else { 'install-haxelib.log' }
+          Add-Content $env:GITHUB_STEP_SUMMARY "### $f (tail)"
+          Add-Content $env:GITHUB_STEP_SUMMARY '```'
+          Get-Content $f -Tail 120 | Add-Content $env:GITHUB_STEP_SUMMARY
+          Add-Content $env:GITHUB_STEP_SUMMARY '```'
+          $lines = Select-String -Path $f -Pattern 'Error|error:|Could not|Exception|Invalid|not found' |
+            Select-Object -First 9 | ForEach-Object { $_.Line }
+          if (-not $lines) { $lines = Get-Content $f -Tail 9 }
+          $lines | ForEach-Object { "::error::$_" }
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
@@ -178,17 +177,16 @@ jobs:
 
       - name: Compile
         shell: bash
-        run: haxelib run lime build mac 2>&1 | tee build.log
+        run: haxelib run lime build project.xml mac 2>&1 | tee build.log
 
       - name: Show logs on failure
         if: failure()
         shell: bash
         run: |
-          for f in install-haxelib.log build.log; do
-            [ -f "$f" ] || continue
-            { echo "### $f (tail)"; echo '```'; tail -n 80 "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-            tail -n 9 "$f" | sed 's/^/::error::/'
-          done
+          f=build.log; [ -f "$f" ] || f=install-haxelib.log
+          { echo "### $f (tail)"; echo '```'; tail -n 120 "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          grep -E "Error|error:|Could not|Exception|Invalid|not found" "$f" | head -n 9 | sed 's/^/::error::/' \
+            || tail -n 9 "$f" | sed 's/^/::error::/'
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
