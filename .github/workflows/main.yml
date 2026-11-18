@@ -44,8 +44,12 @@ jobs:
             haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
             haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
             haxelib install hxcpp-debug-server
+            haxelib set flixel 5.5.0
+            haxelib set flixel-ui 2.4.0
+            haxelib set flixel-addons 2.11.0
             haxelib list
           } 2>&1 | tee install-haxelib.log
+          echo "::notice::$(haxelib list | grep -E '^flixel(-ui|-addons)?:' | tr '\n' ' ')"
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -60,8 +64,9 @@ jobs:
         run: |
           f=build.log; [ -f "$f" ] || f=install-haxelib.log
           { echo "### $f (tail)"; echo '```'; tail -n 120 "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          grep -E "Error|error:|Could not|Exception|Invalid|not found" "$f" | head -n 9 | sed 's/^/::error::/' \
-            || tail -n 9 "$f" | sed 's/^/::error::/'
+          hits=$(grep -E "Error|error:|Could not|Exception|Invalid|not found" "$f" | head -n 9 || true)
+          if [ -z "$hits" ]; then hits=$(tail -n 9 "$f" || true); fi
+          printf '%s\n' "$hits" | sed 's/^/::error::/'
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
@@ -102,8 +107,12 @@ jobs:
             haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex || exit /b 1
             haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc || exit /b 1
             haxelib install hxcpp-debug-server || exit /b 1
+            haxelib set flixel 5.5.0 || exit /b 1
+            haxelib set flixel-ui 2.4.0 || exit /b 1
+            haxelib set flixel-addons 2.11.0 || exit /b 1
             haxelib list || exit /b 1
           ) > install-haxelib.log 2>&1
+          for /f "delims=" %%L in ('haxelib list ^| findstr /b "flixel"') do echo ::notice::%%L
 
       - name: Create Version Tag
         shell: cmd
@@ -169,8 +178,12 @@ jobs:
             haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
             haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
             haxelib install hxcpp-debug-server
+            haxelib set flixel 5.5.0
+            haxelib set flixel-ui 2.4.0
+            haxelib set flixel-addons 2.11.0
             haxelib list
           } 2>&1 | tee install-haxelib.log
+          echo "::notice::$(haxelib list | grep -E '^flixel(-ui|-addons)?:' | tr '\n' ' ')"
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -185,8 +198,9 @@ jobs:
         run: |
           f=build.log; [ -f "$f" ] || f=install-haxelib.log
           { echo "### $f (tail)"; echo '```'; tail -n 120 "$f"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          grep -E "Error|error:|Could not|Exception|Invalid|not found" "$f" | head -n 9 | sed 's/^/::error::/' \
-            || tail -n 9 "$f" | sed 's/^/::error::/'
+          hits=$(grep -E "Error|error:|Could not|Exception|Invalid|not found" "$f" | head -n 9 || true)
+          if [ -z "$hits" ]; then hits=$(tail -n 9 "$f" || true); fi
+          printf '%s\n' "$hits" | sed 's/^/::error::/'
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
