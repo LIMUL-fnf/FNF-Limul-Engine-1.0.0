@@ -51,6 +51,22 @@ jobs:
           } 2>&1 | tee install-haxelib.log
           echo "::notice::$(haxelib list | grep -E '^flixel(-ui|-addons)?:' | tr '\n' ' ')"
 
+      - name: Patch rapidjson (discord_rpc)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path.home() / "haxelib/discord_rpc/git/lib/discord-rpc/include/rapidjson/document.h"
+          if not p.exists():
+              print("rapidjson document.h not found, skipping patch")
+          else:
+              s = p.read_text()
+              s2, n = re.subn(r"GenericStringRef&\s+operator=\(const GenericStringRef&\s+rhs\)\s*\{[^}]*\}", "GenericStringRef& operator=(const GenericStringRef& rhs) = delete;", s)
+              if n:
+                  p.write_text(s2)
+              print("rapidjson operator= patched:", n)
+          PY
+
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
 
@@ -184,6 +200,22 @@ jobs:
             haxelib list
           } 2>&1 | tee install-haxelib.log
           echo "::notice::$(haxelib list | grep -E '^flixel(-ui|-addons)?:' | tr '\n' ' ')"
+
+      - name: Patch rapidjson (discord_rpc)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path.home() / "haxelib/discord_rpc/git/lib/discord-rpc/include/rapidjson/document.h"
+          if not p.exists():
+              print("rapidjson document.h not found, skipping patch")
+          else:
+              s = p.read_text()
+              s2, n = re.subn(r"GenericStringRef&\s+operator=\(const GenericStringRef&\s+rhs\)\s*\{[^}]*\}", "GenericStringRef& operator=(const GenericStringRef& rhs) = delete;", s)
+              if n:
+                  p.write_text(s2)
+              print("rapidjson operator= patched:", n)
+          PY
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
